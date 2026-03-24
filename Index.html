@@ -2,162 +2,168 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta viewport khusus agar aplikasi fullscreen -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>uwit - Launcher</title>
+    <title>uwit - Portal Dashboard</title>
     
-    <!-- Meta tag wajib untuk PWA iOS & Android -->
+    <!-- Meta tag PWA (Penting agar tidak ada bar browser) -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="uwit">
-    <meta name="theme-color" content="#f8fafc"> 
+    <meta name="theme-color" content="#22c55e"> 
     
-    <!-- Ikon Resmi uwit -->
+    <!-- Ikon Aplikasi -->
     <link rel="apple-touch-icon" href="https://ui-avatars.com/api/?name=U&background=22c55e&color=fff&size=512&bold=true">
-    <link rel="icon" type="image/png" sizes="192x192" href="https://ui-avatars.com/api/?name=U&background=22c55e&color=fff&size=192&bold=true">
-    
-    <!-- Google Fonts & FontAwesome -->
+    <link rel="icon" type="image/png" href="https://ui-avatars.com/api/?name=U&background=22c55e&color=fff&size=192&bold=true">
+
+    <!-- Manifest PWA (Single File Method) -->
+    <link rel="manifest" href='data:application/manifest+json,{"name":"uwit Finance","short_name":"uwit","start_url":".","display":"standalone","background_color":"#f8fafc","theme_color":"#22c55e","icons":[{"src":"https://ui-avatars.com/api/?name=U&background=22c55e&color=fff&size=512&bold=true","sizes":"512x512","type":"image/png"}]}'>
+
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
+        :root { --green: #22c55e; --dark: #1e293b; --bg: #f8fafc; --white: #ffffff; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body, html { 
-            height: 100%; width: 100%; overflow: hidden; 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8fafc; color: #1e293b;
-        }
+        body, html { height: 100%; width: 100%; overflow: hidden; font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); }
 
-        /* --- TAMPILAN MENU LAUNCHER --- */
-        .launcher-menu {
+        /* --- Tampilan Menu Portal --- */
+        .launcher-screen {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100%; padding: 30px; text-align: center;
+            height: 100%; padding: 40px 25px; text-align: center;
             background: radial-gradient(circle at top right, #ffffff, #f1f5f9);
         }
 
-        .brand-logo {
-            width: 80px; height: 80px; background: #22c55e; color: white;
-            border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            font-size: 40px; font-weight: 800; margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+        .logo-box {
+            width: 90px; height: 90px; background: var(--green); color: white;
+            border-radius: 24px; display: flex; align-items: center; justify-content: center;
+            font-size: 45px; font-weight: 800; margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(34, 197, 94, 0.25);
         }
 
-        h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
-        p { font-size: 13px; color: #64748b; margin-bottom: 40px; font-weight: 600; }
+        h1 { font-size: 26px; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+        .subtitle { font-size: 14px; color: #64748b; font-weight: 600; margin-bottom: 45px; }
 
-        .btn-version {
-            width: 100%; max-width: 320px; padding: 20px; border-radius: 20px;
-            margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px;
-            border: 2px solid transparent; transition: 0.2s; text-align: left;
+        .btn-card {
+            width: 100%; max-width: 340px; padding: 22px; border-radius: 24px;
+            margin-bottom: 18px; cursor: pointer; display: flex; align-items: center; gap: 18px;
+            background: var(--white); border: 2px solid #e2e8f0; transition: 0.3s;
+            text-align: left; position: relative; overflow: hidden;
         }
+        .btn-card:active { transform: scale(0.96); border-color: var(--green); }
+        .btn-card i { font-size: 22px; padding: 15px; border-radius: 16px; transition: 0.3s; }
 
-        .btn-stable {
-            background: white; border-color: #e2e8f0;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-        }
-        .btn-stable:active { transform: scale(0.97); border-color: #22c55e; }
-        .btn-stable i { color: #22c55e; background: #dcfce7; padding: 15px; border-radius: 14px; font-size: 20px; }
+        /* Style Khusus Stable */
+        .btn-stable i { color: #22c55e; background: #f0fdf4; }
+        .btn-stable:hover { border-color: #22c55e; box-shadow: 0 10px 25px rgba(34, 197, 94, 0.1); }
 
-        .btn-dev {
-            background: white; border-color: #e2e8f0;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-        }
-        .btn-dev:active { transform: scale(0.97); border-color: #f59e0b; }
-        .btn-dev i { color: #f59e0b; background: #fef3c7; padding: 15px; border-radius: 14px; font-size: 20px; }
+        /* Style Khusus Dev */
+        .btn-dev i { color: #f59e0b; background: #fffbeb; }
+        .btn-dev:hover { border-color: #f59e0b; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.1); }
 
-        .btn-text h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
-        .btn-text span { font-size: 11px; color: #64748b; font-weight: 600; }
+        .btn-text h3 { font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+        .btn-text p { font-size: 11px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* --- TAMPILAN IFRAME APPS SCRIPT --- */
-        .app-frame { 
-            display: none; width: 100%; height: calc(100% + 50px); 
-            border: none; margin-top: -45px; 
-            background: #f8fafc;
-        }
+        /* --- Iframe Container --- */
+        .app-container { display: none; width: 100%; height: 100%; position: relative; }
+        iframe { width: 100%; height: calc(100% + 45px); border: none; margin-top: -45px; }
 
-        /* Tombol Kembali ke Launcher (Floating) */
-        .btn-home {
-            display: none; position: fixed; bottom: env(safe-area-inset-bottom, 20px); left: 50%;
-            transform: translateX(-50%); background: rgba(30, 41, 59, 0.85); color: white;
-            padding: 8px 20px; border-radius: 20px; font-size: 11px; font-weight: 700;
+        /* Floating Home Button */
+        .nav-back {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            background: rgba(30, 41, 59, 0.9); color: white;
+            padding: 10px 22px; border-radius: 30px; font-size: 12px; font-weight: 700;
             backdrop-filter: blur(10px); cursor: pointer; z-index: 10000; border: none;
+            display: none; align-items: center; gap: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
     </style>
 </head>
 <body>
 
-    <!-- MENU PEMILIHAN VERSI -->
-    <div id="launcher-menu" class="launcher-menu">
-        <div class="brand-logo">U</div>
+    <!-- SCREEN 1: PORTAL LAUNCHER -->
+    <div id="launcher" class="launcher-screen">
+        <div class="logo-box">U</div>
         <h1>Portal uwit</h1>
-        <p>Pilih ruang kerja Anda, Komandan.</p>
+        <p class="subtitle">Pilih versi aplikasi yang ingin diakses.</p>
 
-        <!-- TOMBOL STABLE -->
-        <div class="btn-version btn-stable" onclick="openApp('stable')">
+        <!-- VERSI STABLE -->
+        <div class="btn-card btn-stable" onclick="launchApp('stable')">
             <i class="fa-solid fa-shield-check"></i>
             <div class="btn-text">
-                <h3>Stable Version</h3>
-                <span>Aman & teruji untuk pencatatan harian.</span>
+                <h3>Versi Stabil</h3>
+                <p>Aman & Teruji (Production)</p>
             </div>
         </div>
 
-        <!-- TOMBOL DEV -->
-        <div class="btn-version btn-dev" onclick="openApp('dev')">
-            <i class="fa-solid fa-flask"></i>
+        <!-- VERSI DEV -->
+        <div class="btn-card btn-dev" onclick="launchApp('dev')">
+            <i class="fa-solid fa-vial-circle-check"></i>
             <div class="btn-text">
-                <h3>Dev Version</h3>
-                <span>Zona uji coba untuk fitur terbaru.</span>
+                <h3>Versi Dev</h3>
+                <p>Eksperimen Fitur Baru</p>
             </div>
         </div>
+        
+        <p style="margin-top: 30px; font-size: 10px; color: #cbd5e1; font-weight: 700; letter-spacing: 1px;">ELGAHQ FINANCE SYSTEM v5.8</p>
     </div>
 
-    <!-- IFRAME TEMPAT APLIKASI BERJALAN -->
-    <iframe id="app-frame" class="app-frame" title="uwit App"></iframe>
+    <!-- SCREEN 2: APP VIEWER -->
+    <div id="app-view" class="app-container">
+        <iframe id="main-frame" src="" title="uwit App View"></iframe>
+    </div>
 
-    <!-- TOMBOL KEMBALI KE LAUNCHER -->
-    <button id="btn-home" class="btn-home" onclick="goHome()"><i class="fa-solid fa-power-off"></i> Ganti Versi</button>
+    <!-- FLOATING EXIT BUTTON -->
+    <button id="exit-btn" class="nav-back" onclick="closeApp()">
+        <i class="fa-solid fa-house-user"></i> Kembali ke Portal
+    </button>
 
     <script>
-        // ---------------------------------------------------------
-        // MASUKKAN KEDUA LINK APPS SCRIPT KOMANDAN DI SINI
-        // ---------------------------------------------------------
-        const URL_STABLE = "MASUKKAN_LINK_APPS_SCRIPT_VERSI_LAMA_YANG_AMAN_DISINI";
-        const URL_DEV = "MASUKKAN_LINK_APPS_SCRIPT_VERSI_BARU_EKSPERIMEN_DISINI";
-        // ---------------------------------------------------------
+        /**
+         * --- PANDUAN KOMANDAN ELGA ---
+         * Gantilah URL di bawah ini dengan link 'Web App' (exec) yang 
+         * Komandan dapatkan dari Google Apps Script.
+         */
+        const URL_STABLE = "MASUKKAN_URL_APPS_SCRIPT_STABLE_DISINI";
+        const URL_DEV    = "MASUKKAN_URL_APPS_SCRIPT_DEVELOPMENT_DISINI";
 
-        const launcher = document.getElementById('launcher-menu');
-        const frame = document.getElementById('app-frame');
-        const btnHome = document.getElementById('btn-home');
+        const launcher = document.getElementById('launcher');
+        const appView = document.getElementById('app-view');
+        const frame = document.getElementById('main-frame');
+        const exitBtn = document.getElementById('exit-btn');
 
-        function openApp(version) {
-            // Tentukan URL berdasarkan tombol yang diklik
-            const targetUrl = (version === 'stable') ? URL_STABLE : URL_DEV;
-            
-            // Cek jika URL masih kosong
-            if(targetUrl.includes("MASUKKAN_LINK")) {
-                alert("Komandan belum memasukkan URL Google Apps Script di kode HTML Launcher ini!");
+        function launchApp(mode) {
+            const url = (mode === 'stable') ? URL_STABLE : URL_DEV;
+
+            if (url.includes("MASUKKAN_URL")) {
+                alert("Komandan belum memasukkan URL Apps Script di dalam kode index.html!");
                 return;
             }
 
-            // Ganti tampilan
+            // Animasi Transisi
             launcher.style.display = 'none';
-            frame.style.display = 'block';
-            btnHome.style.display = 'block';
-
-            // Muat URL ke dalam iframe
-            frame.src = targetUrl;
+            appView.style.display = 'block';
+            exitBtn.style.display = 'flex';
+            
+            // Muat Iframe
+            frame.src = url;
         }
 
-        function goHome() {
-            // Bersihkan iframe dan kembali ke menu
+        function closeApp() {
+            // Bersihkan frame dan kembali
             frame.src = "";
-            frame.style.display = 'none';
-            btnHome.style.display = 'none';
+            appView.style.display = 'none';
+            exitBtn.style.display = 'none';
             launcher.style.display = 'flex';
         }
+
+        // Mencegah tarik-turun (overscroll) di iOS
+        document.body.addEventListener('touchmove', function(e) {
+            if (appView.style.display === 'block') return; // Biarkan scrolling di dalam app
+            e.preventDefault();
+        }, { passive: false });
     </script>
 </body>
 </html>
