@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta viewport khusus agar aplikasi fullscreen -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>uwit - Launcher</title>
+    
+    <!-- Meta tag wajib untuk PWA iOS & Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="uwit">
+    <meta name="theme-color" content="#f8fafc"> 
+    
+    <!-- Ikon Resmi uwit -->
+    <link rel="apple-touch-icon" href="https://ui-avatars.com/api/?name=U&background=22c55e&color=fff&size=512&bold=true">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://ui-avatars.com/api/?name=U&background=22c55e&color=fff&size=192&bold=true">
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body, html { 
+            height: 100%; width: 100%; overflow: hidden; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc; color: #1e293b;
+        }
+
+        /* --- TAMPILAN MENU LAUNCHER --- */
+        .launcher-menu {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100%; padding: 30px; text-align: center;
+            background: radial-gradient(circle at top right, #ffffff, #f1f5f9);
+        }
+
+        .brand-logo {
+            width: 80px; height: 80px; background: #22c55e; color: white;
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            font-size: 40px; font-weight: 800; margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+        }
+
+        h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        p { font-size: 13px; color: #64748b; margin-bottom: 40px; font-weight: 600; }
+
+        .btn-version {
+            width: 100%; max-width: 320px; padding: 20px; border-radius: 20px;
+            margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px;
+            border: 2px solid transparent; transition: 0.2s; text-align: left;
+        }
+
+        .btn-stable {
+            background: white; border-color: #e2e8f0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+        }
+        .btn-stable:active { transform: scale(0.97); border-color: #22c55e; }
+        .btn-stable i { color: #22c55e; background: #dcfce7; padding: 15px; border-radius: 14px; font-size: 20px; }
+
+        .btn-dev {
+            background: white; border-color: #e2e8f0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+        }
+        .btn-dev:active { transform: scale(0.97); border-color: #f59e0b; }
+        .btn-dev i { color: #f59e0b; background: #fef3c7; padding: 15px; border-radius: 14px; font-size: 20px; }
+
+        .btn-text h3 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+        .btn-text span { font-size: 11px; color: #64748b; font-weight: 600; }
+
+        /* --- TAMPILAN IFRAME APPS SCRIPT --- */
+        .app-frame { 
+            display: none; width: 100%; height: calc(100% + 50px); 
+            border: none; margin-top: -45px; 
+            background: #f8fafc;
+        }
+
+        /* Tombol Kembali ke Launcher (Floating) */
+        .btn-home {
+            display: none; position: fixed; bottom: env(safe-area-inset-bottom, 20px); left: 50%;
+            transform: translateX(-50%); background: rgba(30, 41, 59, 0.85); color: white;
+            padding: 8px 20px; border-radius: 20px; font-size: 11px; font-weight: 700;
+            backdrop-filter: blur(10px); cursor: pointer; z-index: 10000; border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENU PEMILIHAN VERSI -->
+    <div id="launcher-menu" class="launcher-menu">
+        <div class="brand-logo">U</div>
+        <h1>Portal uwit</h1>
+        <p>Pilih ruang kerja Anda, Komandan.</p>
+
+        <!-- TOMBOL STABLE -->
+        <div class="btn-version btn-stable" onclick="openApp('stable')">
+            <i class="fa-solid fa-shield-check"></i>
+            <div class="btn-text">
+                <h3>Stable Version</h3>
+                <span>Aman & teruji untuk pencatatan harian.</span>
+            </div>
+        </div>
+
+        <!-- TOMBOL DEV -->
+        <div class="btn-version btn-dev" onclick="openApp('dev')">
+            <i class="fa-solid fa-flask"></i>
+            <div class="btn-text">
+                <h3>Dev Version</h3>
+                <span>Zona uji coba untuk fitur terbaru.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- IFRAME TEMPAT APLIKASI BERJALAN -->
+    <iframe id="app-frame" class="app-frame" title="uwit App"></iframe>
+
+    <!-- TOMBOL KEMBALI KE LAUNCHER -->
+    <button id="btn-home" class="btn-home" onclick="goHome()"><i class="fa-solid fa-power-off"></i> Ganti Versi</button>
+
+    <script>
+        // ---------------------------------------------------------
+        // MASUKKAN KEDUA LINK APPS SCRIPT KOMANDAN DI SINI
+        // ---------------------------------------------------------
+        const URL_STABLE = "MASUKKAN_LINK_APPS_SCRIPT_VERSI_LAMA_YANG_AMAN_DISINI";
+        const URL_DEV = "MASUKKAN_LINK_APPS_SCRIPT_VERSI_BARU_EKSPERIMEN_DISINI";
+        // ---------------------------------------------------------
+
+        const launcher = document.getElementById('launcher-menu');
+        const frame = document.getElementById('app-frame');
+        const btnHome = document.getElementById('btn-home');
+
+        function openApp(version) {
+            // Tentukan URL berdasarkan tombol yang diklik
+            const targetUrl = (version === 'stable') ? URL_STABLE : URL_DEV;
+            
+            // Cek jika URL masih kosong
+            if(targetUrl.includes("MASUKKAN_LINK")) {
+                alert("Komandan belum memasukkan URL Google Apps Script di kode HTML Launcher ini!");
+                return;
+            }
+
+            // Ganti tampilan
+            launcher.style.display = 'none';
+            frame.style.display = 'block';
+            btnHome.style.display = 'block';
+
+            // Muat URL ke dalam iframe
+            frame.src = targetUrl;
+        }
+
+        function goHome() {
+            // Bersihkan iframe dan kembali ke menu
+            frame.src = "";
+            frame.style.display = 'none';
+            btnHome.style.display = 'none';
+            launcher.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
