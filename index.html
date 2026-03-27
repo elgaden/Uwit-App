@@ -82,17 +82,6 @@
             border: none; 
             margin-top: -45px; 
         }
-
-        /* Floating Nav Button */
-        .nav-back {
-            position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%);
-            background: var(--dark); color: white;
-            padding: 12px 24px; border-radius: 30px; font-size: 11px; font-weight: 800;
-            cursor: pointer; z-index: 10001; border: none;
-            display: none; align-items: center; gap: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-        }
     </style>
 </head>
 <body>
@@ -120,7 +109,7 @@
             </div>
         </div>
         
-        <p style="margin-top: 40px; font-size: 9px; color: #cbd5e1; font-weight: 800; letter-spacing: 1px;">ELGAHQ FINANCE v6.1-STABLE</p>
+        <p style="margin-top: 40px; font-size: 9px; color: #cbd5e1; font-weight: 800; letter-spacing: 1px;">ELGAHQ FINANCE v6.5-STABLE</p>
     </div>
 
     <!-- AREA IFRAME -->
@@ -136,7 +125,6 @@
         const launcher = document.getElementById('launcher');
         const appView = document.getElementById('app-view');
         const frame = document.getElementById('main-frame');
-        const exitBtn = document.getElementById('exit-btn');
 
         function launchApp(mode) {
             const url = (mode === 'stable') ? URL_STABLE : URL_DEV;
@@ -148,14 +136,12 @@
 
             launcher.style.display = 'none';
             appView.style.display = 'block';
-            exitBtn.style.display = 'flex';
             frame.src = url;
         }
 
         function closeApp() {
             frame.src = "";
             appView.style.display = 'none';
-            exitBtn.style.display = 'none';
             launcher.style.display = 'flex';
         }
 
